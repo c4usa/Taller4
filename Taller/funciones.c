@@ -3,8 +3,6 @@
 
 char nombres[100][30];
 float precios[100];
-int stocks[100];
-int ids[100];
 int cantidadProductos = 0;
 
 int validar(int minimo, int maximo)
