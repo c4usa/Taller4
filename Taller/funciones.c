@@ -21,7 +21,7 @@ int validar(int minimo, int maximo)
         }
         if (sscanf(linea, "%d %c", &valor, &extra) != 1 || valor < minimo || valor > maximo)
         {
-            printf("Entrada inválida. Intente nuevamente: ");
+            printf("Entrada invalida. Intente nuevamente: ");
         }
         else
         {
@@ -65,17 +65,32 @@ void ingresarProducto()
     }
     for (int i = 0; i < cantidad; i++)
     {
-        printf("\nProducto #%d: \n", i + 1);
-        printf("Ingrese el nombre del producto: ");
-        fgets(nombres[cantidadProductos], 30, stdin);
-        for (int j = 0; nombres[cantidadProductos][j] != '\0'; j++)
-        {
-            if (nombres[cantidadProductos][j] == '\n')
+        char nombreTemporal[30];
+        int nombreRepetido;
+        do {
+            nombreRepetido = 0;
+            printf("\nProducto #%d:\n", i + 1);
+            printf("Ingrese el nombre del producto: ");
+            fgets(nombreTemporal, 30, stdin);
+            for (int j = 0; nombreTemporal[j] != '\0'; j++)
             {
-                nombres[cantidadProductos][j] = '\0';
-                break;
+                if (nombreTemporal[j] == '\n')
+                {
+                    nombreTemporal[j] = '\0';
+                    break;
+                }
             }
-        }
+            for (int k = 0; k < cantidadProductos; k++)
+            {
+                if (strcmp(nombreTemporal, nombres[k]) == 0)
+                {
+                    printf("Ese nombre ya existe. Ingrese un nombre diferente.\n");
+                    nombreRepetido = 1;
+                    break;
+                }
+            }
+        } while (nombreRepetido);
+        strcpy(nombres[cantidadProductos], nombreTemporal);
         printf("Ingrese el precio del producto: ");
         precios[cantidadProductos] = comprobar();
         cantidadProductos++;
