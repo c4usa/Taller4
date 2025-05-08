@@ -47,36 +47,42 @@ float comprobar()
 
 void ingresarProducto()
 {
-    if (cantidadProductos >= 100)
+    int cantidad;
+
+    printf("Ingrese la cantidad de productos que desea ingresar: ");
+    cantidad = validar(1, 10);
+    if (cantidadProductos + cantidad > 100)
     {
-        printf("No se pueden agregar más productos.\n");
+        printf("No hay espacio suficiente para %d productos. Puede ingresar hasta %d más.\n", cantidad, 100 - cantidadProductos);
+        return;
+    }
+    for (int i = 0; i < cantidad; i++)
+    {
+        printf("\nProducto #%d:\n", i + 1);
+        printf("Ingrese el nombre del producto: ");
+        scanf("%29s", nombres[cantidadProductos]);
+        printf("Ingrese el precio del producto: ");
+        precios[cantidadProductos] = comprobar();
+        cantidadProductos++;
+    }
+    printf("\nProductos ingresados correctamente.\n");
+}
+
+void mostrarProductos()
+{
+    if (cantidadProductos == 0)
+    {
+        printf("No hay productos registrados.\n");
         return;
     }
 
-    printf("Ingrese el ID del producto: ");
-    ids[cantidadProductos] = validar(1, 100);
+    printf("\n\t\t\t%-30s%-10s\n", "NOMBRE", "PRECIO");
+    printf("\t\t\t---------------------------------------------\n");
 
-    printf("Ingrese el nombre del producto (sin espacios): ");
-    scanf("%29s", nombres[cantidadProductos]);
-
-    printf("Ingrese la cantidad en stock: ");
-    stocks[cantidadProductos] = validar(0, 1000);
-
-    printf("Ingrese el precio unitario: ");
-    precios[cantidadProductos] = comprobar();
-
-    cantidadProductos++;
-    printf("Producto ingresado correctamente.\n");
-}
-
-void mostrarPrecioTotal()
-{
-    float total = 0;
     for (int i = 0; i < cantidadProductos; i++)
     {
-        total += precios[i] * stocks[i];
+        printf("\t\t\t%-30s$%.2f\n", nombres[i], precios[i]);
     }
-    printf("Precio total del inventario: $%.2f\n", total);
 }
 
 void mostrarMaxMin()
